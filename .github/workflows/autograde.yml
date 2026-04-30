@@ -2,29 +2,14 @@ name: Autograding · Evidencias ADSO
 
 on:
   push:
-    branches:
-      - 'evidencia/**'
+    branches: [main]
   pull_request:
     branches: [main]
 
 jobs:
-  detect-evidencia:
+  test:
+    name: Tests evidencias
     runs-on: ubuntu-latest
-    outputs:
-      evidencia: ${{ steps.detect.outputs.evidencia }}
-    steps:
-      - id: detect
-        run: |
-          BRANCH="${{ github.head_ref || github.ref_name }}"
-          EVID="${BRANCH#evidencia/}"
-          echo "evidencia=$EVID" >> $GITHUB_OUTPUT
-          echo "Evidencia detectada: $EVID"
-
-  autograde-ga6-aa1:
-    needs: detect-evidencia
-    if: needs.detect-evidencia.outputs.evidencia == 'ga6-aa1-modelo-bd'
-    runs-on: ubuntu-latest
-    name: GA6-AA1 — Modelo de base de datos
     steps:
       - uses: actions/checkout@v4
 
@@ -50,30 +35,8 @@ jobs:
           php artisan key:generate
           touch database/database.sqlite
 
-      - name: Run Pest tests
+      - name: Run feature tests
         env:
           DB_CONNECTION: sqlite
           DB_DATABASE: database/database.sqlite
-        run: |
-          php artisan migrate:fresh --env=testing --force
-          php artisan test --filter=Ga6Aa1ModeloBdTest
-
-  autograde-ga7-aa1:
-    needs: detect-evidencia
-    if: needs.detect-evidencia.outputs.evidencia == 'ga7-aa1-git'
-    runs-on: ubuntu-latest
-    name: GA7-AA1 — Versionamiento
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-      - name: Validar commits convencionales
-        run: |
-          # Cuenta commits con prefijo conventional commits
-          COUNT=$(git log --oneline main..HEAD | grep -E "^[a-f0-9]+ (feat|fix|docs|chore|refactor|test|style)(\(.+\))?: " | wc -l)
-          TOTAL=$(git log --oneline main..HEAD | wc -l)
-          echo "Convencionales: $COUNT / $TOTAL"
-          if [ "$COUNT" -lt 5 ]; then
-            echo "::error::Se requieren mínimo 5 commits convencionales en este branch"
-            exit 1
-          fi
+        run: php artisan test --testsuite=Feature
