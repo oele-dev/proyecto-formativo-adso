@@ -16,7 +16,7 @@ Este es el **repositorio plantilla** del proyecto formativo de la fase de Ejecuc
 
 ## Setup local (una sola vez)
 
-Requisitos: PHP 8.2+, Composer, Node 20+, MySQL 8 (o SQLite para desarrollo).
+Requisitos: PHP 8.2+, Composer, SQLite (viene con PHP, no requiere instalación separada).
 
 ```bash
 # Después de hacer fork desde GitHub
@@ -27,14 +27,34 @@ cd proyecto-formativo-adso
 git remote add upstream https://github.com/oele-dev/proyecto-formativo-adso.git
 
 composer install
-npm install
 cp .env.example .env
 php artisan key:generate
+touch database/database.sqlite
 php artisan migrate
-
-# Servidor: http://localhost:8000
-npm run dev
 ```
+
+## ⭐ Cómo abrir el proyecto (importante)
+
+> **Abre el archivo `proyecto-formativo.code-workspace`, NO la carpeta.**
+
+Doble clic al archivo `proyecto-formativo.code-workspace` (o desde VS Code: *File → Open Workspace from File...*). Vas a ver **solo 3 carpetas** en el sidebar:
+
+- 📦 **Base de datos** — donde creas tus migraciones, seeders y factories
+- 🧪 **Tests** — los tests que tu código debe pasar (autograding)
+- 📋 **Evidencias** — el README de cada evidencia con qué hacer
+
+El resto del proyecto (Laravel core: `app/`, `config/`, `routes/`, `vendor/`, etc.) queda como **caja negra** — no necesitas tocarlo todavía. Lo abriremos cuando lleguemos a las evidencias de interfaces web (GA6-AA3+).
+
+### Comandos que sí vas a usar
+
+Desde terminal en la raíz del proyecto:
+
+```bash
+php artisan migrate:fresh --seed   # recrea la BD con datos de prueba
+php artisan test                   # corre los tests (autograding local)
+```
+
+Eso es todo. Si tu test pasa local, también pasará en GitHub Actions cuando hagas push.
 
 ## Flujo por cada evidencia
 
@@ -99,17 +119,21 @@ git checkout main
 
 Tu **proyecto formativo** vive en `main` y aplicas el patrón **a tu dominio**, no al de biblioteca.
 
-## Estructura del repo
+## Estructura del repo (lo que sí vas a tocar)
 
 ```
 .
-├── app/                      # código Laravel (modelos, controllers, etc.)
-├── database/migrations/      # migraciones — clave para GA6-AA1, GA6-AA2
-├── resources/js/             # componentes React + Inertia
-├── tests/Feature/            # tests funcionales
-├── evidencias/               # se llena al mergear feat/*
-└── .github/workflows/        # GitHub Actions (autograding)
+├── proyecto-formativo.code-workspace  # ← ABRE ESTE archivo en VS Code
+├── database/
+│   ├── migrations/           # creas tablas aquí
+│   ├── seeders/              # datos de prueba
+│   └── factories/            # generadores de datos para tests
+├── tests/Feature/            # autograding (no editar — solo leer)
+├── evidencias/               # README + materiales por evidencia (al mergear feat/*)
+└── README.md
 ```
+
+**Caja negra (no tocar todavía):** `app/`, `config/`, `routes/`, `resources/`, `public/`, `bootstrap/`, `vendor/`, `storage/`, `.github/`. Esto es Laravel internals — lo abriremos cuando llegue GA6-AA3 (interfaces web). Si abres el `.code-workspace`, no los verás en el sidebar.
 
 ## Tabla de evidencias automatizables
 

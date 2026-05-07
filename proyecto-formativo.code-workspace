@@ -1,0 +1,71 @@
+{
+  "folders": [
+    {
+      "name": "📦 Base de datos (migraciones · seeders · factories)",
+      "path": "database"
+    },
+    {
+      "name": "🧪 Tests (autograding)",
+      "path": "tests/Feature"
+    },
+    {
+      "name": "📋 Evidencias (README de cada una)",
+      "path": "evidencias"
+    },
+    {
+      "name": "📖 Proyecto",
+      "path": "."
+    }
+  ],
+  "settings": {
+    "files.exclude": {
+      "app": true,
+      "bootstrap": true,
+      "config": true,
+      "public": true,
+      "resources": true,
+      "routes": true,
+      "storage": true,
+      "vendor": true,
+      "node_modules": true,
+      ".github": true,
+      ".phpunit.result.cache": true,
+      ".npmrc": true,
+      ".gitattributes": true,
+      ".editorconfig": true,
+      ".env": true,
+      ".env.example": true,
+      "artisan": true,
+      "composer.json": true,
+      "composer.lock": true,
+      "package.json": true,
+      "package-lock.json": true,
+      "phpunit.xml": true,
+      "vite.config.js": true,
+      "tsconfig.json": true,
+      "tests/Unit": true,
+      "tests/TestCase.php": true,
+      "database/database.sqlite": true,
+      "database/.gitignore": true
+    },
+    "search.exclude": {
+      "vendor": true,
+      "node_modules": true,
+      "storage": true,
+      "public/build": true
+    },
+    "files.associations": {
+      "*.php": "php"
+    },
+    "explorer.compactFolders": false,
+    "workbench.colorTheme": "Default Dark Modern",
+    "editor.formatOnSave": false
+  },
+  "extensions": {
+    "recommendations": [
+      "bmewburn.vscode-intelephense-client",
+      "onecentlin.laravel-blade",
+      "ms-azuretools.vscode-docker"
+    ]
+  }
+}
